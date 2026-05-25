@@ -6,7 +6,6 @@
     <title>Shape Of My Heart - Cinematic Ultra</title>
 
     <style>
-
         *{
             margin:0;
             padding:0;
@@ -34,6 +33,8 @@
             text-align:center;
             position:relative;
             -webkit-touch-callout:none;
+            /* Tambahkan transisi halus untuk parallax */
+            transition: transform 0.1s ease-out;
         }
 
         button,
@@ -51,24 +52,24 @@
             box-shadow:none;
         }
 
-        body::before{
+        /* ===== FITUR 2: PARALLAX BACKGROUND (AURORA) ===== */
+        .aurora-bg{
             content:'';
             position:fixed;
-            inset:0;
+            inset:-50px; /* Lebarkan sedikit agar tidak terlihat terpotong saat parallax */
             background:
             radial-gradient(circle at 20% 20%, rgba(180,120,255,.15), transparent 30%),
             radial-gradient(circle at 80% 30%, rgba(255,100,200,.12), transparent 30%),
             radial-gradient(circle at 50% 80%, rgba(120,180,255,.12), transparent 35%);
             animation:auroraMove 10s infinite alternate ease-in-out;
             z-index:-2;
+            pointer-events:none;
         }
 
         @keyframes auroraMove{
-
             0%{
                 transform:scale(1) translateY(0px);
             }
-
             100%{
                 transform:scale(1.2) translateY(-20px);
             }
@@ -76,7 +77,7 @@
 
         .stars{
             position:fixed;
-            inset:0;
+            inset:-50px; /* Lebarkan sedikit agar tidak terlihat terpotong saat parallax */
             overflow:hidden;
             z-index:-1;
             pointer-events:none;
@@ -92,12 +93,10 @@
         }
 
         @keyframes twinkle{
-
             0%,100%{
                 opacity:.2;
                 transform:scale(1);
             }
-
             50%{
                 opacity:1;
                 transform:scale(1.8);
@@ -134,15 +133,12 @@
         }
 
         @keyframes bounce{
-
             0%,20%,50%,80%,100%{
                 transform:translateY(0);
             }
-
             40%{
                 transform:translateY(-20px);
             }
-
             60%{
                 transform:translateY(-10px);
             }
@@ -172,21 +168,12 @@
         }
 
         @keyframes typing{
-
-            from{
-                width:0;
-            }
-
-            to{
-                width:100%;
-            }
+            from{ width:0; }
+            to{ width:100%; }
         }
 
         @keyframes blink{
-
-            50%{
-                border-color:transparent;
-            }
+            50%{ border-color:transparent; }
         }
 
         header h1{
@@ -230,34 +217,174 @@
             color:#ddd;
         }
 
-        .photo-grid{
-            display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:15px;
-            max-width:520px;
-            margin:25px auto 0 auto;
+        .counter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .photo-item{
-            width:100%;
-            height:230px;
-            object-fit:cover;
-            border-radius:18px;
-            border:2px solid rgba(192,132,255,.4);
-            background:#1b1026;
-            display:block;
-            transition:.5s ease;
-            box-shadow:0 5px 15px rgba(0,0,0,.4);
-            transform-style:preserve-3d;
+        .counter-box {
+            background: rgba(192, 132, 255, 0.1);
+            border: 1px solid rgba(192, 132, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 12px;
+            min-width: 80px;
         }
 
-        .photo-item:hover{
-            transform:
-            rotateY(10deg)
-            rotateX(10deg)
-            scale(1.06);
+        .counter-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd6ff;
+            text-shadow: 0 0 10px rgba(255, 214, 255, 0.5);
+            display: block;
+        }
 
-            box-shadow:0 10px 30px rgba(192,132,255,.5);
+        .counter-label {
+            font-size: 0.75rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== STYLE: INTERACTIVE TIMELINE LANE ===== */
+        .timeline-section {
+            max-width: 650px;
+            margin: 60px auto;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, rgba(192,132,255,0.1), #c084ff, rgba(192,132,255,0.1));
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px #c084ff;
+            z-index: 1;
+        }
+
+        .timeline-item {
+            width: 100%;
+            margin-bottom: 40px;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: #120b1a;
+            border: 3px solid #ffd6ff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #c084ff;
+            z-index: 3;
+            transition: 0.3s;
+        }
+
+        .timeline-item.active-lane .timeline-dot {
+            background: #ffd6ff;
+            scale: 1.3;
+            box-shadow: 0 0 15px #ffd6ff;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(192, 132, 255, 0.2);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            text-align: left;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: 0.4s;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: left;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.03);
+            border-color: rgba(192, 132, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(192,132,255,0.2);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: #c084ff;
+            font-weight: bold;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content h3 {
+            color: #f0d9ff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .timeline-item.active-lane {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== FITUR 3: DYNAMIC FLOATING POP-UP QUOTES ===== */
+        .quote-bubble {
+            position: fixed;
+            bottom: -100px; /* Sembunyikan di bawah layar */
+            right: 20px;
+            background: rgba(192, 132, 255, 0.15);
+            border: 1px solid rgba(192, 132, 255, 0.4);
+            padding: 15px 20px;
+            border-radius: 20px 20px 0 20px;
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.5s ease-out;
+            max-width: 280px;
+            text-align: left;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        .quote-bubble p {
+            color: #ffd6ff;
+            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .quote-bubble.show-quote {
+            bottom: 80px; /* Munculkan di atas widget musik */
+            opacity: 1;
+            display: block;
         }
 
         .petal{
@@ -269,7 +396,6 @@
         }
 
         @keyframes fall{
-
             to{
                 transform:
                 translateY(110vh)
@@ -291,12 +417,10 @@
         }
 
         @keyframes floatFly{
-
             to{
                 transform:
                 translateY(-120vh)
                 translateX(100px);
-
                 opacity:0;
             }
         }
@@ -315,13 +439,11 @@
         }
 
         @keyframes shoot{
-
             to{
                 transform:
                 translateX(120vw)
                 translateY(120vh)
                 rotate(45deg);
-
                 opacity:0;
             }
         }
@@ -360,94 +482,72 @@
             animation:musicBounce 1s infinite ease-in-out;
         }
 
-        .bar:nth-child(2){
-            animation-delay:.2s;
-        }
-
-        .bar:nth-child(3){
-            animation-delay:.4s;
-        }
-
-        .bar:nth-child(4){
-            animation-delay:.6s;
-        }
-
-        .bar:nth-child(5){
-            animation-delay:.8s;
-        }
+        .bar:nth-child(2){ animation-delay:.2s; }
+        .bar:nth-child(3){ animation-delay:.4s; }
+        .bar:nth-child(4){ animation-delay:.6s; }
+        .bar:nth-child(5){ animation-delay:.8s; }
 
         @keyframes musicBounce{
-
-            0%,100%{
-                height:10px;
-            }
-
-            50%{
-                height:40px;
-            }
+            0%,100%{ height:10px; }
+            50%{ height:40px; }
         }
 
         @media(max-width:600px){
-
             header h1{
                 font-size:2.1rem;
             }
-
-            .photo-grid{
-                grid-template-columns:1fr;
-            }
-
-            .photo-item{
-                height:280px;
-            }
+            .counter-container { gap: 8px; }
+            .counter-box { min-width: 65px; padding: 8px 5px; }
+            .counter-number { font-size: 1.4rem; }
+            
+            .timeline-section::before { left: 20px; }
+            .timeline-item { justify-content: flex-end !important; }
+            .timeline-content { width: calc(100% - 40px); }
+            .timeline-dot { left: 20px; }
         }
-.long-story{
-    max-width:700px;
-    text-align:left;
-    animation:fadeUp 1.5s ease;
-}
 
-.story-text{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
-}
+        .long-story{
+            max-width:700px;
+            text-align:left;
+            animation:fadeUp 1.5s ease;
+        }
 
-.story-text p{
-    font-size:1.05rem;
-    line-height:2;
-    color:#e7dfff;
-    opacity:.95;
-}
+        .story-text{
+            display:flex;
+            flex-direction:column;
+            gap:24px;
+        }
 
-.highlight-line{
-    font-size:1.2rem !important;
-    color:#ffd6ff !important;
-    text-align:center;
-    font-style:italic;
-    text-shadow:0 0 15px rgba(255,255,255,.25);
-}
+        .story-text p{
+            font-size:1.05rem;
+            line-height:2;
+            color:#e7dfff;
+            opacity:.95;
+        }
 
-@keyframes fadeUp{
+        .highlight-line{
+            font-size:1.2rem !important;
+            color:#ffd6ff !important;
+            text-align:center;
+            font-style:italic;
+            text-shadow:0 0 15px rgba(255,255,255,.25);
+        }
 
-    from{
-        opacity:0;
-        transform:translateY(50px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+        @keyframes fadeUp{
+            from{ opacity:0; transform:translateY(50px); }
+            to{ opacity:1; transform:translateY(0); }
+        }
     </style>
 </head>
 
 <body>
 
+    <div class="aurora-bg" id="auroraBg"></div>
     <div class="stars" id="stars"></div>
 
-    <!-- ===== AUDIO BARU ===== -->
+    <div class="quote-bubble" id="quoteBubble">
+        <p id="quoteText">Kamu tahu? Aku senyum-senyum sendiri pas nulis ini...</p>
+    </div>
 
     <audio
         id="romantic-song"
@@ -455,429 +555,360 @@
         loop
         playsinline
         preload="auto">
-
-        <source
-        src="https://files.catbox.moe/grg9eo.mp3"
-        type="audio/mpeg">
-
+        <source src="https://files.catbox.moe/grg9eo.mp3" type="audio/mpeg">
     </audio>
 
     <div class="gift-container" id="giftScreen">
-
-        <div class="gift-box" onclick="openGift()">
-            🎁
-        </div>
-
-        <p class="click-text">
-            TAP TO OPEN
-        </p>
-
+        <div class="gift-box" onclick="openGift()">🎁</div>
+        <p class="click-text">TAP TO OPEN</p>
     </div>
 
     <div class="main-content" id="mainScreen">
 
         <header>
-
-            <h1 class="typing-text">
-                For You, My Everything
-            </h1>
-
-            <p>
-                "Ini dibuat sebagai bentuk rasa sayang dan cinta aku..."
-            </p>
-
+            <h1 class="typing-text">For You, My Everything</h1>
+            <p>"Ini dibuat sebagai bentuk rasa sayang dan cinta aku..."</p>
         </header>
 
         <div class="section-card">
-
-            <h2>
-                Let me show you the shape of my heart 💜
-            </h2>
-
-            <p>
-                Sadness is beautiful,
-                loneliness is tragical.
-                But with you here,
-                every single piece of my world
-                finally makes sense.
-            </p>
-
+            <h2>Tanggal Jadian Kita💜</h2>
+            <p style="margin-bottom: 15px; font-size: 0.95rem; color: #d1b3ff;">November 27, 2025</p>
+            <div class="counter-container">
+                <div class="counter-box">
+                    <span class="counter-number" id="days">00</span>
+                    <span class="counter-label">Hari</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-number" id="hours">00</span>
+                    <span class="counter-label">Jam</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-number" id="minutes">00</span>
+                    <span class="counter-label">Menit</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-number" id="seconds">00</span>
+                    <span class="counter-label">Detik</span>
+                </div>
+            </div>
         </div>
 
         <div class="section-card">
-
-            <h2>
-                Why You Mean So Much ✨
-            </h2>
-
+            <h2>Let me show you the shape of my heart 💜</h2>
             <p>
-                ❤️ Your Smile — terang yang selalu menenangkan.
+                Sadness is beautiful, loneliness is tragical. 
+                But with you here, every single piece of my world finally makes sense.
             </p>
-
-            <p>
-                💖 Your Soul — selalu tulus dan bikin nyaman.
-            </p>
-
-            <p>
-                🌸 Your Presence — kehadiranmu yang berharga
-                di setiap hariku.
-            </p>
-
         </div>
 
         <div class="section-card">
+            <h2>Why You Mean So Much ✨</h2>
+            <p style="margin-bottom: 10px;">❤️ Your Smile — terang yang selalu menenangkan.</p>
+            <p style="margin-bottom: 10px;">💖 Your Soul — selalu tulus dan bikin nyaman.</p>
+            <p style="margin-bottom: 10px;">🌸 Your Presence — kehadiranmu yang berharga di setiap hariku.</p>
+        </div>
 
-            <h2>
-                Our Memories 📸
-            </h2>
 
-            <div class="photo-grid">
+        <h2 style="color: #ffd6ff; margin: 50px 0 10px 0; font-size: 2rem; text-shadow: 0 0 15px rgba(192,132,255,0.4);">Our Memories 📸</h2>
+        <p style="color: #ccc; font-style: italic; margin-bottom: 30px;">"Menggulir kembali memori indah kita..."</p>
 
-                <img class="photo-item"
-                    src="https://iili.io/CJ13XiF.png"
-                    alt="Foto 1">
+        <div class="timeline-section">
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">CHAPTER I</span>
+                    <h3>Tugas praktek public speaking ✨</h3>
+                    <p>Momen ini saat kaita ada kegiatan tugas publick speaking dan aku melet WLEEE.</p>
+                    <img class="timeline-img" src="https://iili.io/CJ13XiF.png" alt="Kenangan 1">
+                </div>
+            </div>
 
-                <img class="photo-item"
-                    src="https://iili.io/CJ1Kqvf.png"
-                    alt="Foto 2">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">CHAPTER II</span>
+                    <h3>Minta di tembak 💜</h3>
+                    <p>Ini momen kamu pengen aku ngomong kamu mau ga sama aku, dan itu di real life dan disitu langsung aku turutin.</p>
+                    <img class="timeline-img" src="https://iili.io/CJ1Kqvf.png" alt="Kenangan 2">
+                </div>
+            </div>
 
-                <img class="photo-item"
-                    src="https://iili.io/CJ1f2tV.png"
-                    alt="Foto 3">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">CHAPTER III</span>
+                    <h3>Canda & Bahagia 🥰</h3>
+                    <p>Setiap canda tawa kecil dan kenyamanan yang selalu berhasil bikin hari hari aku tenang.</p>
+                    <img class="timeline-img" src="https://iili.io/CJ1f2tV.png" alt="Kenangan 3">
+                </div>
+            </div>
 
-                <img class="photo-item"
-                    src="https://iili.io/CJ1qJgn.png"
-                    alt="Foto 4">
-
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">CHAPTER IV</span>
+                    <h3>Saat aku pertama ketemu kamu 🌹</h3>
+                    <p>Disini aku masih canggung banget dan aku liat kamu super aktif, dan aku makin nyaman sama kamu.</p>
+                    <img class="timeline-img" src="https://iili.io/CJ1qJgn.png" alt="Kenangan 4">
+                </div>
             </div>
 
         </div>
 
+
+        <div class="section-card long-story" style="margin: 60px auto 35px auto;">
+            <h2>A Little Story About You 💌</h2>
+            <div class="story-text">
+                <p>Honestly... aku gak pernah nyangka kalau seseorang bisa hadir dan bikin hidup terasa jauh lebih indah.</p>
+                <p>Before you came, everything felt so ordinary. Hari-hari terasa biasa aja, nothing really special. But then you appeared, and suddenly the world felt softer somehow.</p>
+                <p>Cara kamu ngomong, cara kamu ketawa, bahkan hal kecil yang mungkin gak kamu sadari... semuanya selalu berhasil tinggal di pikiranku.</p>
+                <p>Sometimes I just stare at the sky and think... “How can someone make me feel this calm?”</p>
+                <p>Kayak semua masalah tiba-tiba gak terlalu berat kalau ada kamu.</p>
+                <p>Maybe I’m not the best person, maybe I still have many flaws, but one thing I know:</p>
+                <p class="highlight-line">my feelings for you are real.</p>
+                <p>Aku suka cara kamu hadir. The way you make people smile, the way your existence quietly brightens everything around you.</p>
+                <p>And honestly... I don’t need perfect moments. Even simple conversations with you already feel special enough.</p>
+                <p>Kadang aku takut waktu berjalan terlalu cepat. Because moments like this, moments with you, are the kind of moments people wish could last forever.</p>
+                <p>If someday kamu lagi capek, lagi sedih, atau merasa sendirian...</p>
+                <p class="highlight-line">please remember, there is someone here who truly cares about you. 💜</p>
+                <p>Maybe destiny is strange. People come and go. But somehow, meeting you feels different.</p>
+                <p>Like the universe quietly said:</p>
+                <p class="highlight-line">“This person will become an important part of your heart.”</p>
+                <p>Aku gak tau ending cerita ini nanti bagaimana. But for now, I just want to enjoy every second while you’re still here beside my world.</p>
+                <p>Because some people are not just memories.</p>
+                <p class="highlight-line">Some people become a feeling you never want to lose. ✨</p>
+            </div>
+        </div>
+
         <div class="section-card">
-
-            <h2>
-                Always & Forever 🌹
-            </h2>
-
-            <p>
-                Made with love, just for you.
-            </p>
-
+            <h2>Always & Forever 🌹</h2>
+            <p>Made with love, just for you.</p>
         </div>
 
     </div>
-<!-- ===== LONG ROMANTIC STORY ===== -->
 
-<div class="section-card long-story">
+    <div class="music-player" id="playerWidget">🎵 Romantic Blues Vibes</div>
 
-    <h2>
-        A Little Story About You 💌
-    </h2>
-
-    <div class="story-text">
-
-        <p>
-            Honestly...
-            aku gak pernah nyangka
-            kalau seseorang bisa hadir
-            dan bikin hidup terasa jauh lebih indah.
-        </p>
-
-        <p>
-            Before you came,
-            everything felt so ordinary.
-            Hari-hari terasa biasa aja,
-            nothing really special.
-            But then you appeared,
-            and suddenly the world
-            felt softer somehow.
-        </p>
-
-        <p>
-            Cara kamu ngomong,
-            cara kamu ketawa,
-            bahkan hal kecil yang mungkin
-            gak kamu sadari...
-            semuanya selalu berhasil
-            tinggal di pikiranku.
-        </p>
-
-        <p>
-            Sometimes I just stare at the sky
-            and think...
-            “How can someone
-            make me feel this calm?”
-        </p>
-
-        <p>
-            Kayak semua masalah
-            tiba-tiba gak terlalu berat
-            kalau ada kamu.
-        </p>
-
-        <p>
-            Maybe I’m not the best person,
-            maybe I still have many flaws,
-            but one thing I know:
-        </p>
-
-        <p class="highlight-line">
-            my feelings for you are real.
-        </p>
-
-        <p>
-            Aku suka cara kamu hadir.
-            The way you make people smile,
-            the way your existence
-            quietly brightens everything around you.
-        </p>
-
-        <p>
-            And honestly...
-            I don’t need perfect moments.
-            Even simple conversations with you
-            already feel special enough.
-        </p>
-
-        <p>
-            Kadang aku takut waktu berjalan terlalu cepat.
-            Because moments like this,
-            moments with you,
-            are the kind of moments
-            people wish could last forever.
-        </p>
-
-        <p>
-            If someday
-            kamu lagi capek,
-            lagi sedih,
-            atau merasa sendirian...
-        </p>
-
-        <p class="highlight-line">
-            please remember,
-            there is someone here
-            who truly cares about you. 💜
-        </p>
-
-        <p>
-            Maybe destiny is strange.
-            People come and go.
-            But somehow,
-            meeting you feels different.
-        </p>
-
-        <p>
-            Like the universe quietly said:
-        </p>
-
-        <p class="highlight-line">
-            “This person will become
-            an important part of your heart.”
-        </p>
-
-        <p>
-            Aku gak tau ending cerita ini nanti bagaimana.
-            But for now,
-            I just want to enjoy every second
-            while you’re still here beside my world.
-        </p>
-
-        <p>
-            Because some people
-            are not just memories.
-        </p>
-
-        <p class="highlight-line">
-            Some people become
-            a feeling you never want to lose. ✨
-        </p>
-
+    <div class="visualizer">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
     </div>
 
-</div>
-
-  <div class="music-player" id="playerWidget">
-
-    <button id="playBtn">⏸</button>
-
-    <div class="music-info">
-        <h4>Shape Of My Heart</h4>
-        <p>Backstreet Boys</p>
-    </div>
-
-    <input type="range"
-           id="volumeControl"
-           min="0"
-           max="1"
-           step="0.01"
-           value="0.7">
-
-</div>
     <script>
+        // === JALUR HITUNG REAL-TIME ANNIVERSARY (26 Nov 2025) ===
+        const anniversaryDate = new Date("November 26, 2025 00:00:00").getTime();
 
+        function updateLoveCounter() {
+            const now = new Date().getTime();
+            const difference = now - anniversaryDate;
+
+            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+            document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+            document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+            document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+        }
+
+        setInterval(updateLoveCounter, 1000);
+
+        // === FITUR SENSOR SCROLL (TIMELINE REVEAL) ===
+        function revealTimelineItems() {
+            const items = document.querySelectorAll('.timeline-item');
+            const triggerBottom = window.innerHeight * 0.85;
+
+            items.forEach(item => {
+                const itemTop = item.getBoundingClientRect().top;
+
+                if (itemTop < triggerBottom) {
+                    item.classList.add('active-lane');
+                } else {
+                    item.classList.remove('active-lane');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealTimelineItems);
+
+        // === FITUR 2: PARALLAX STARFIELD & GRAVITY EFFECT SENSOR ===
+        // Merespons gerakan mouse (desktop) atau kemiringan HP
+        const auroraBg = document.getElementById('auroraBg');
+        const starsContainer = document.getElementById('stars');
+        const intensity = 30; // Seberapa jauh elemen bergerak
+
+        function handleParallax(e) {
+            let x, y;
+            if (e.type === 'mousemove') {
+                x = e.clientX / window.innerWidth;
+                y = e.clientY / window.innerHeight;
+            } else if (e.type === 'deviceorientation') {
+                // Gunakan sensor gyroscope HP (membutuhkan izin di iOS)
+                // Normalize beta (-180 to 180) and gamma (-90 to 90)
+                x = (e.gamma + 90) / 180;
+                y = (e.beta + 180) / 360;
+                
+                // Jika gerakan terlalu ekstrem, batasnya
+                if (x > 1) x = 1; if (x < 0) x = 0;
+                if (y > 1) y = 1; if (y < 0) y = 0;
+            } else {
+                return;
+            }
+
+            // Hitung pergeseran (invert agar gerakan lebih sinematik)
+            const moveX = (0.5 - x) * intensity;
+            const moveY = (0.5 - y) * intensity;
+
+            // Terapkan transform ke background
+            auroraBg.style.transform = `translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
+            
+            // Bintang bergeser sedikit lebih cepat (layer depth)
+            starsContainer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            
+            // Fireflies juga bergeser
+            const fireflies = document.querySelectorAll('.firefly');
+            fireflies.forEach(fly => {
+                const flyX = (parseFloat(fly.style.left) / 100);
+                const flyY = (parseFloat(fly.style.bottom) / 100);
+                const moveFlyX = (0.5 - x) * intensity * 1.5; // Layer depth 
+                const moveFlyY = (0.5 - y) * intensity * 1.5; // Layer depth
+                fly.style.transform = `translate(${moveFlyX}px, ${moveFlyY}px)`;
+            });
+        }
+
+        // Jalankanparallax dengan mulus
+        document.addEventListener('mousemove', handleParallax);
+        window.addEventListener('deviceorientation', handleParallax, true);
+
+
+        // === FITUR 3: DYNAMIC FLOATING POP-UP QUOTES ===
+        const quotes = [
+            "Kamu tahu? Aku senyum-senyum sendiri pas nulis ini...",
+            "Makasih ya udah bertahan sama aku sampai hari ini. 💜",
+            "Honestly, talking to you is the best part of my day.",
+            "If I had to choose again, I’d still choose you. Everytime. ✨",
+            "Jangan lupa senyum ya hari ini. You mean the world to me.",
+            "Bisikan kecil: 'I promise to always care about you.'",
+            "Kamu selalu ada di hati aku. Selamanya. 🌹"
+        ];
+        const quoteBubble = document.getElementById('quoteBubble');
+        const quoteText = document.getElementById('quoteText');
+        let currentQuoteIndex = 0;
+        let quoteInterval;
+
+        function showNextQuote() {
+            if (quotes.length === 0) return;
+
+            // Ubah teks perlahan
+            quoteBubble.classList.remove('show-quote'); // Sembunyikan dulu
+            
+            setTimeout(() => {
+                quoteText.innerText = quotes[currentQuoteIndex];
+                quoteBubble.classList.add('show-quote'); // Tampilkan teks baru
+                
+                // Siapkan index berikutnya
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            }, 500); // Waktu yang sama dengan durasi transisi
+        }
+
+
+        // === JALUR MEMBUKA KADO (GIFT OPEN) ===
         function openGift(){
-
-            const song =
-            document.getElementById('romantic-song');
-
+            const song = document.getElementById('romantic-song');
             song.load();
-
             song.volume = 1;
-
             song.currentTime = 0;
 
             song.play()
-            .then(()=>{
-
-                console.log("Musik berhasil diputar");
-
+            .then(()=>{ 
+                console.log("Musik berhasil diputar"); 
             })
-            .catch((e)=>{
-
-                console.log("Error audio:", e);
-
+            .catch((e)=>{ 
+                console.log("Error audio (biasanya butuh interaksi user dulu):", e); 
+                // Coba putar lagi setelah interaksi
+                document.body.addEventListener('click', () => { song.play(); }, { once: true });
             });
 
-            const gift =
-            document.getElementById('giftScreen');
-
+            const gift = document.getElementById('giftScreen');
             gift.style.opacity='0';
 
             setTimeout(()=>{
-
                 gift.style.display='none';
-
-                const main =
-                document.getElementById('mainScreen');
-
+                const main = document.getElementById('mainScreen');
                 main.classList.add('show-content');
+                document.getElementById('playerWidget').style.display='flex';
+                
+                updateLoveCounter();
+                revealTimelineItems();
 
-                document.getElementById('playerWidget')
-                .style.display='flex';
+                // === MULAI FITUR 3: FLOATING QUOTES SESUDAH GIFT BUKA ===
+                quoteBubble.style.display = 'block'; // Pastikan element terlihat sebelum animasi
+                showNextQuote(); // Tampilkan kutipan pertama
+                quoteInterval = setInterval(showNextQuote, 10000); // Ganti kutipan setiap 10 detik
 
                 setInterval(createPetal,300);
-
             },1000);
         }
 
+        // === MEMBUAT KELOPAK/HATI JATUH ===
         function createPetal(){
-
-            const petal =
-            document.createElement('div');
-
+            const petal = document.createElement('div');
             petal.classList.add('petal');
-
-            const icons = [
-                '🌸',
-                '💖',
-                '✨',
-                '🦋',
-                '💜',
-                '🤍'
-            ];
-
-            petal.innerText =
-            icons[Math.floor(Math.random()*icons.length)];
-
-            petal.style.left =
-            Math.random()*100+'vw';
-
-            petal.style.fontSize =
-            (Math.random()*15+15)+'px';
-
-            const duration =
-            Math.random()*3+3;
-
-            petal.style.animationDuration =
-            duration+'s';
-
-            petal.style.opacity =
-            Math.random();
-
+            const icons = ['🌸', '💖', '✨', '🦋', '💜', '🤍'];
+            petal.innerText = icons[Math.floor(Math.random()*icons.length)];
+            petal.style.left = Math.random()*100+'vw';
+            petal.style.fontSize = (Math.random()*15+15)+'px';
+            const duration = Math.random()*3+3;
+            petal.style.animationDuration = duration+'s';
+            petal.style.opacity = Math.random();
             document.body.appendChild(petal);
 
-            setTimeout(()=>{
-
-                petal.remove();
-
-            },duration*1000);
+            setTimeout(()=>{ petal.remove(); },duration*1000);
         }
 
+        // === MEMBUAT BACKGROUND BINTANG AUTOMATIS ===
         for(let i=0;i<120;i++){
-
-            const star =
-            document.createElement('div');
-
+            const star = document.createElement('div');
             star.classList.add('star');
-
-            star.style.left =
-            Math.random()*100+'vw';
-
-            star.style.top =
-            Math.random()*100+'vh';
-
-            star.style.animationDuration =
-            (Math.random()*3+2)+'s';
-
-            document.getElementById('stars')
-            .appendChild(star);
+            star.style.left = Math.random()*100+'vw';
+            star.style.top = Math.random()*100+'vh';
+            star.style.animationDuration = (Math.random()*3+2)+'s';
+            document.getElementById('stars').appendChild(star);
         }
 
+        // === EFEK KUNANG-KUNANG MENGAMBANG ===
         setInterval(()=>{
-
-            const firefly =
-            document.createElement('div');
-
+            const firefly = document.createElement('div');
             firefly.classList.add('firefly');
-
-            firefly.style.left =
-            Math.random()*100+'vw';
-
-            firefly.style.bottom =
-            '-10px';
-
-            firefly.style.animationDuration =
-            (Math.random()*5+4)+'s';
-
+            firefly.style.left = Math.random()*100+'vw';
+            firefly.style.bottom = '-10px';
+            firefly.style.animationDuration = (Math.random()*5+4)+'s';
+            firefly.style.opacity = Math.random();
             document.body.appendChild(firefly);
 
-            setTimeout(()=>{
-
-                firefly.remove();
-
-            },9000);
-
+            setTimeout(()=>{ firefly.remove(); },9000);
         },700);
 
+        // === BINTANG JATUH SINEMATIK ===
         setInterval(()=>{
-
-            const shooting =
-            document.createElement('div');
-
+            const shooting = document.createElement('div');
             shooting.classList.add('shooting-star');
-
-            shooting.style.top =
-            Math.random()*40+'vh';
-
-            shooting.style.left =
-            '-200px';
-
+            shooting.style.top = Math.random()*40+'vh';
+            shooting.style.left = '-200px';
             document.body.appendChild(shooting);
 
-            setTimeout(()=>{
-
-                shooting.remove();
-
-            },2000);
-
+            setTimeout(()=>{ shooting.remove(); },2000);
         },6000);
 
+        // === EFEK SPARKLE JEJAK POINTER MOUSE ===
         document.addEventListener('mousemove',(e)=>{
-
-            const sparkle =
-            document.createElement('div');
-
+            const sparkle = document.createElement('div');
             sparkle.style.position='fixed';
             sparkle.style.left=e.clientX+'px';
             sparkle.style.top=e.clientY+'px';
@@ -892,95 +923,25 @@
             document.body.appendChild(sparkle);
 
             sparkle.animate([
-                {
-                    transform:'scale(1)',
-                    opacity:1
-                },
-                {
-                    transform:'scale(0)',
-                    opacity:0
-                }
-            ],{
-                duration:600
-            });
+                { transform:'scale(1)', opacity:1 },
+                { transform:'scale(0)', opacity:0 }
+            ],{ duration:600 });
 
-            setTimeout(()=>{
-
-                sparkle.remove();
-
-            },600);
-
+            setTimeout(()=>{ sparkle.remove(); },600);
         });
 
-        document.addEventListener('contextmenu',function(e){
-
-            e.preventDefault();
-
-        });
-
+        // === PROTEKSI KLIK KANAN & INSPECT ELEMENT ===
+        document.addEventListener('contextmenu',function(e){ e.preventDefault(); });
         document.addEventListener('keydown',function(e){
-
             if(
-
                 e.key === 'F12' ||
-
                 (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-
                 (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-
                 (e.ctrlKey && e.key === 'U')
-
             ){
-
                 e.preventDefault();
-
             }
-
         });
-/* SLIDESHOW */
-
-const slides = document.querySelectorAll('.slide');
-let currentSlide = 0;
-
-setInterval(()=>{
-
-    slides[currentSlide].classList.remove('active-slide');
-
-    currentSlide = (currentSlide + 1) % slides.length;
-
-    slides[currentSlide].classList.add('active-slide');
-
-},4000);
-
-
-/* REAL MUSIC PLAYER */
-
-const audio = document.getElementById('romantic-song');
-const playBtn = document.getElementById('playBtn');
-const volumeControl = document.getElementById('volumeControl');
-
-playBtn.addEventListener('click',()=>{
-
-    if(audio.paused){
-
-        audio.play();
-        playBtn.innerHTML='⏸';
-
-    }else{
-
-        audio.pause();
-        playBtn.innerHTML='▶';
-
-    }
-
-});
-
-volumeControl.addEventListener('input',()=>{
-
-    audio.volume = volumeControl.value;
-
-});
     </script>
-
 </body>
 </html>
