@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shape Of My Heart - Cinematic Ultra</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+
+            -webkit-tap-highlight-color:transparent;
+        }
+
+        img{
+            pointer-events:none;
+            -webkit-user-drag:none;
+            user-drag:none;
+        }
+
+        body{
+            background:#120b1a;
+            color:white;
+            overflow-x:hidden;
+            text-align:center;
+            position:relative;
+            -webkit-touch-callout:none;
+        }
+
+        button,
+        div,
+        img,
+        a{
+            outline:none;
+        }
+
+        button:focus,
+        div:focus,
+        img:focus,
+        a:focus{
+            outline:none;
+            box-shadow:none;
+        }
+
+        body::before{
+            content:'';
+            position:fixed;
+            inset:0;
+            background:
+            radial-gradient(circle at 20% 20%, rgba(180,120,255,.15), transparent 30%),
+            radial-gradient(circle at 80% 30%, rgba(255,100,200,.12), transparent 30%),
+            radial-gradient(circle at 50% 80%, rgba(120,180,255,.12), transparent 35%);
+            animation:auroraMove 10s infinite alternate ease-in-out;
+            z-index:-2;
+        }
+
+        @keyframes auroraMove{
+
+            0%{
+                transform:scale(1) translateY(0px);
+            }
+
+            100%{
+                transform:scale(1.2) translateY(-20px);
+            }
+        }
+
+        .stars{
+            position:fixed;
+            inset:0;
+            overflow:hidden;
+            z-index:-1;
+            pointer-events:none;
+        }
+
+        .star{
+            position:absolute;
+            width:2px;
+            height:2px;
+            background:white;
+            border-radius:50%;
+            animation:twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle{
+
+            0%,100%{
+                opacity:.2;
+                transform:scale(1);
+            }
+
+            50%{
+                opacity:1;
+                transform:scale(1.8);
+            }
+        }
+
+        .gift-container{
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            background:radial-gradient(circle,#2c143d 0%,#0b0412 100%);
+            transition:1s;
+        }
+
+        .gift-box{
+            font-size:100px;
+            cursor:pointer;
+            animation:bounce 2s infinite;
+            transition:.3s;
+            filter:drop-shadow(0 0 20px rgba(192,132,255,.7));
+        }
+
+        .gift-box:hover{
+            transform:scale(1.15);
+        }
+
+        .click-text{
+            margin-top:20px;
+            color:#d1b3ff;
+            letter-spacing:4px;
+            font-size:14px;
+        }
+
+        @keyframes bounce{
+
+            0%,20%,50%,80%,100%{
+                transform:translateY(0);
+            }
+
+            40%{
+                transform:translateY(-20px);
+            }
+
+            60%{
+                transform:translateY(-10px);
+            }
+        }
+
+        .main-content{
+            display:none;
+            opacity:0;
+            transition:1.5s;
+            padding:40px 20px;
+        }
+
+        .show-content{
+            display:block;
+            opacity:1;
+        }
+
+        .typing-text{
+            overflow:hidden;
+            white-space:nowrap;
+            border-right:3px solid #fff;
+            width:0;
+            margin:auto;
+            animation:
+            typing 5s steps(40,end) forwards,
+            blink .7s infinite;
+        }
+
+        @keyframes typing{
+
+            from{
+                width:0;
+            }
+
+            to{
+                width:100%;
+            }
+        }
+
+        @keyframes blink{
+
+            50%{
+                border-color:transparent;
+            }
+        }
+
+        header h1{
+            font-size:3rem;
+            color:#c084ff;
+            margin-bottom:10px;
+            text-shadow:0 0 20px rgba(192,132,255,.6);
+        }
+
+        header p{
+            color:#ccc;
+            margin-bottom:50px;
+            font-style:italic;
+        }
+
+        .section-card{
+            max-width:550px;
+            margin:0 auto 35px auto;
+            background:rgba(255,255,255,.05);
+            border:1px solid rgba(192,132,255,.2);
+            padding:30px;
+            border-radius:20px;
+            backdrop-filter:blur(10px);
+            box-shadow:0 10px 30px rgba(0,0,0,.5);
+            transition:.4s;
+        }
+
+        .section-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 15px 40px rgba(192,132,255,.25);
+        }
+
+        .section-card h2{
+            color:#f0d9ff;
+            margin-bottom:15px;
+            font-size:1.6rem;
+        }
+
+        .section-card p{
+            line-height:1.8;
+            color:#ddd;
+        }
+
+        .photo-grid{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:15px;
+            max-width:520px;
+            margin:25px auto 0 auto;
+        }
+
+        .photo-item{
+            width:100%;
+            height:230px;
+            object-fit:cover;
+            border-radius:18px;
+            border:2px solid rgba(192,132,255,.4);
+            background:#1b1026;
+            display:block;
+            transition:.5s ease;
+            box-shadow:0 5px 15px rgba(0,0,0,.4);
+            transform-style:preserve-3d;
+        }
+
+        .photo-item:hover{
+            transform:
+            rotateY(10deg)
+            rotateX(10deg)
+            scale(1.06);
+
+            box-shadow:0 10px 30px rgba(192,132,255,.5);
+        }
+
+        .petal{
+            position:fixed;
+            top:-10px;
+            z-index:9999;
+            pointer-events:none;
+            animation:fall linear forwards;
+        }
+
+        @keyframes fall{
+
+            to{
+                transform:
+                translateY(110vh)
+                translateX(100px)
+                rotate(360deg);
+            }
+        }
+
+        .firefly{
+            position:fixed;
+            width:6px;
+            height:6px;
+            border-radius:50%;
+            background:#fff5aa;
+            box-shadow:0 0 10px #fff5aa;
+            pointer-events:none;
+            z-index:999;
+            animation:floatFly linear forwards;
+        }
+
+        @keyframes floatFly{
+
+            to{
+                transform:
+                translateY(-120vh)
+                translateX(100px);
+
+                opacity:0;
+            }
+        }
+
+        .shooting-star{
+            position:fixed;
+            top:-100px;
+            left:-100px;
+            width:150px;
+            height:2px;
+            background:linear-gradient(to right, white, transparent);
+            transform:rotate(45deg);
+            opacity:.8;
+            z-index:999;
+            animation:shoot 2s linear forwards;
+        }
+
+        @keyframes shoot{
+
+            to{
+                transform:
+                translateX(120vw)
+                translateY(120vh)
+                rotate(45deg);
+
+                opacity:0;
+            }
+        }
+
+        .music-player{
+            position:fixed;
+            bottom:20px;
+            left:20px;
+            background:rgba(0,0,0,.7);
+            border:1px solid #b366ff;
+            padding:12px 20px;
+            border-radius:40px;
+            display:none;
+            align-items:center;
+            gap:10px;
+            z-index:1000;
+            box-shadow:0 0 20px rgba(179,102,255,.4);
+            backdrop-filter:blur(10px);
+        }
+
+        .visualizer{
+            position:fixed;
+            bottom:20px;
+            right:20px;
+            display:flex;
+            align-items:flex-end;
+            gap:4px;
+            z-index:1000;
+        }
+
+        .bar{
+            width:5px;
+            height:20px;
+            background:#c084ff;
+            border-radius:20px;
+            animation:musicBounce 1s infinite ease-in-out;
+        }
+
+        .bar:nth-child(2){
+            animation-delay:.2s;
+        }
+
+        .bar:nth-child(3){
+            animation-delay:.4s;
+        }
+
+        .bar:nth-child(4){
+            animation-delay:.6s;
+        }
+
+        .bar:nth-child(5){
+            animation-delay:.8s;
+        }
+
+        @keyframes musicBounce{
+
+            0%,100%{
+                height:10px;
+            }
+
+            50%{
+                height:40px;
+            }
+        }
+
+        @media(max-width:600px){
+
+            header h1{
+                font-size:2.1rem;
+            }
+
+            .photo-grid{
+                grid-template-columns:1fr;
+            }
+
+            .photo-item{
+                height:280px;
+            }
+        }
+.long-story{
+    max-width:700px;
+    text-align:left;
+    animation:fadeUp 1.5s ease;
+}
+
+.story-text{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.story-text p{
+    font-size:1.05rem;
+    line-height:2;
+    color:#e7dfff;
+    opacity:.95;
+}
+
+.highlight-line{
+    font-size:1.2rem !important;
+    color:#ffd6ff !important;
+    text-align:center;
+    font-style:italic;
+    text-shadow:0 0 15px rgba(255,255,255,.25);
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(50px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="stars" id="stars"></div>
+
+    <!-- ===== AUDIO BARU ===== -->
+
+    <audio
+        id="romantic-song"
+        autoplay
+        loop
+        playsinline
+        preload="auto">
+
+        <source
+        src="https://files.catbox.moe/grg9eo.mp3"
+        type="audio/mpeg">
+
+    </audio>
+
+    <div class="gift-container" id="giftScreen">
+
+        <div class="gift-box" onclick="openGift()">
+            🎁
+        </div>
+
+        <p class="click-text">
+            TAP TO OPEN
+        </p>
+
+    </div>
+
+    <div class="main-content" id="mainScreen">
+
+        <header>
+
+            <h1 class="typing-text">
+                For You, My Everything
+            </h1>
+
+            <p>
+                "Ini dibuat sebagai bentuk rasa sayang dan cinta aku..."
+            </p>
+
+        </header>
+
+        <div class="section-card">
+
+            <h2>
+                Let me show you the shape of my heart 💜
+            </h2>
+
+            <p>
+                Sadness is beautiful,
+                loneliness is tragical.
+                But with you here,
+                every single piece of my world
+                finally makes sense.
+            </p>
+
+        </div>
+
+        <div class="section-card">
+
+            <h2>
+                Why You Mean So Much ✨
+            </h2>
+
+            <p>
+                ❤️ Your Smile — terang yang selalu menenangkan.
+            </p>
+
+            <p>
+                💖 Your Soul — selalu tulus dan bikin nyaman.
+            </p>
+
+            <p>
+                🌸 Your Presence — kehadiranmu yang berharga
+                di setiap hariku.
+            </p>
+
+        </div>
+
+        <div class="section-card">
+
+            <h2>
+                Our Memories 📸
+            </h2>
+
+            <div class="photo-grid">
+
+                <img class="photo-item"
+                    src="https://iili.io/CJ13XiF.png"
+                    alt="Foto 1">
+
+                <img class="photo-item"
+                    src="https://iili.io/CJ1Kqvf.png"
+                    alt="Foto 2">
+
+                <img class="photo-item"
+                    src="https://iili.io/CJ1f2tV.png"
+                    alt="Foto 3">
+
+                <img class="photo-item"
+                    src="https://iili.io/CJ1qJgn.png"
+                    alt="Foto 4">
+
+            </div>
+
+        </div>
+
+        <div class="section-card">
+
+            <h2>
+                Always & Forever 🌹
+            </h2>
+
+            <p>
+                Made with love, just for you.
+            </p>
+
+        </div>
+
+    </div>
+<!-- ===== LONG ROMANTIC STORY ===== -->
+
+<div class="section-card long-story">
+
+    <h2>
+        A Little Story About You 💌
+    </h2>
+
+    <div class="story-text">
+
+        <p>
+            Honestly...
+            aku gak pernah nyangka
+            kalau seseorang bisa hadir
+            dan bikin hidup terasa jauh lebih indah.
+        </p>
+
+        <p>
+            Before you came,
+            everything felt so ordinary.
+            Hari-hari terasa biasa aja,
+            nothing really special.
+            But then you appeared,
+            and suddenly the world
+            felt softer somehow.
+        </p>
+
+        <p>
+            Cara kamu ngomong,
+            cara kamu ketawa,
+            bahkan hal kecil yang mungkin
+            gak kamu sadari...
+            semuanya selalu berhasil
+            tinggal di pikiranku.
+        </p>
+
+        <p>
+            Sometimes I just stare at the sky
+            and think...
+            “How can someone
+            make me feel this calm?”
+        </p>
+
+        <p>
+            Kayak semua masalah
+            tiba-tiba gak terlalu berat
+            kalau ada kamu.
+        </p>
+
+        <p>
+            Maybe I’m not the best person,
+            maybe I still have many flaws,
+            but one thing I know:
+        </p>
+
+        <p class="highlight-line">
+            my feelings for you are real.
+        </p>
+
+        <p>
+            Aku suka cara kamu hadir.
+            The way you make people smile,
+            the way your existence
+            quietly brightens everything around you.
+        </p>
+
+        <p>
+            And honestly...
+            I don’t need perfect moments.
+            Even simple conversations with you
+            already feel special enough.
+        </p>
+
+        <p>
+            Kadang aku takut waktu berjalan terlalu cepat.
+            Because moments like this,
+            moments with you,
+            are the kind of moments
+            people wish could last forever.
+        </p>
+
+        <p>
+            If someday
+            kamu lagi capek,
+            lagi sedih,
+            atau merasa sendirian...
+        </p>
+
+        <p class="highlight-line">
+            please remember,
+            there is someone here
+            who truly cares about you. 💜
+        </p>
+
+        <p>
+            Maybe destiny is strange.
+            People come and go.
+            But somehow,
+            meeting you feels different.
+        </p>
+
+        <p>
+            Like the universe quietly said:
+        </p>
+
+        <p class="highlight-line">
+            “This person will become
+            an important part of your heart.”
+        </p>
+
+        <p>
+            Aku gak tau ending cerita ini nanti bagaimana.
+            But for now,
+            I just want to enjoy every second
+            while you’re still here beside my world.
+        </p>
+
+        <p>
+            Because some people
+            are not just memories.
+        </p>
+
+        <p class="highlight-line">
+            Some people become
+            a feeling you never want to lose. ✨
+        </p>
+
+    </div>
+
+</div>
+
+    <div class="music-player" id="playerWidget">
+
+        🎵 Romantic Blues Vibes
+
+    </div>
+
+    <div class="visualizer">
+
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+
+    </div>
+
+    <script>
+
+        function openGift(){
+
+            const song =
+            document.getElementById('romantic-song');
+
+            song.load();
+
+            song.volume = 1;
+
+            song.currentTime = 0;
+
+            song.play()
+            .then(()=>{
+
+                console.log("Musik berhasil diputar");
+
+            })
+            .catch((e)=>{
+
+                console.log("Error audio:", e);
+
+            });
+
+            const gift =
+            document.getElementById('giftScreen');
+
+            gift.style.opacity='0';
+
+            setTimeout(()=>{
+
+                gift.style.display='none';
+
+                const main =
+                document.getElementById('mainScreen');
+
+                main.classList.add('show-content');
+
+                document.getElementById('playerWidget')
+                .style.display='flex';
+
+                setInterval(createPetal,300);
+
+            },1000);
+        }
+
+        function createPetal(){
+
+            const petal =
+            document.createElement('div');
+
+            petal.classList.add('petal');
+
+            const icons = [
+                '🌸',
+                '💖',
+                '✨',
+                '🦋',
+                '💜',
+                '🤍'
+            ];
+
+            petal.innerText =
+            icons[Math.floor(Math.random()*icons.length)];
+
+            petal.style.left =
+            Math.random()*100+'vw';
+
+            petal.style.fontSize =
+            (Math.random()*15+15)+'px';
+
+            const duration =
+            Math.random()*3+3;
+
+            petal.style.animationDuration =
+            duration+'s';
+
+            petal.style.opacity =
+            Math.random();
+
+            document.body.appendChild(petal);
+
+            setTimeout(()=>{
+
+                petal.remove();
+
+            },duration*1000);
+        }
+
+        for(let i=0;i<120;i++){
+
+            const star =
+            document.createElement('div');
+
+            star.classList.add('star');
+
+            star.style.left =
+            Math.random()*100+'vw';
+
+            star.style.top =
+            Math.random()*100+'vh';
+
+            star.style.animationDuration =
+            (Math.random()*3+2)+'s';
+
+            document.getElementById('stars')
+            .appendChild(star);
+        }
+
+        setInterval(()=>{
+
+            const firefly =
+            document.createElement('div');
+
+            firefly.classList.add('firefly');
+
+            firefly.style.left =
+            Math.random()*100+'vw';
+
+            firefly.style.bottom =
+            '-10px';
+
+            firefly.style.animationDuration =
+            (Math.random()*5+4)+'s';
+
+            document.body.appendChild(firefly);
+
+            setTimeout(()=>{
+
+                firefly.remove();
+
+            },9000);
+
+        },700);
+
+        setInterval(()=>{
+
+            const shooting =
+            document.createElement('div');
+
+            shooting.classList.add('shooting-star');
+
+            shooting.style.top =
+            Math.random()*40+'vh';
+
+            shooting.style.left =
+            '-200px';
+
+            document.body.appendChild(shooting);
+
+            setTimeout(()=>{
+
+                shooting.remove();
+
+            },2000);
+
+        },6000);
+
+        document.addEventListener('mousemove',(e)=>{
+
+            const sparkle =
+            document.createElement('div');
+
+            sparkle.style.position='fixed';
+            sparkle.style.left=e.clientX+'px';
+            sparkle.style.top=e.clientY+'px';
+            sparkle.style.width='6px';
+            sparkle.style.height='6px';
+            sparkle.style.borderRadius='50%';
+            sparkle.style.background='#fff';
+            sparkle.style.pointerEvents='none';
+            sparkle.style.boxShadow='0 0 10px #fff';
+            sparkle.style.zIndex='9999';
+
+            document.body.appendChild(sparkle);
+
+            sparkle.animate([
+                {
+                    transform:'scale(1)',
+                    opacity:1
+                },
+                {
+                    transform:'scale(0)',
+                    opacity:0
+                }
+            ],{
+                duration:600
+            });
+
+            setTimeout(()=>{
+
+                sparkle.remove();
+
+            },600);
+
+        });
+
+        document.addEventListener('contextmenu',function(e){
+
+            e.preventDefault();
+
+        });
+
+        document.addEventListener('keydown',function(e){
+
+            if(
+
+                e.key === 'F12' ||
+
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+
+                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+
+                (e.ctrlKey && e.key === 'U')
+
+            ){
+
+                e.preventDefault();
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
