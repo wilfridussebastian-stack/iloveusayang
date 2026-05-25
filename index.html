@@ -697,22 +697,23 @@
 
 </div>
 
-    <div class="music-player" id="playerWidget">
+  <div class="music-player" id="playerWidget">
 
-        🎵 Romantic Blues Vibes
+    <button id="playBtn">⏸</button>
 
+    <div class="music-info">
+        <h4>Shape Of My Heart</h4>
+        <p>Backstreet Boys</p>
     </div>
 
-    <div class="visualizer">
+    <input type="range"
+           id="volumeControl"
+           min="0"
+           max="1"
+           step="0.01"
+           value="0.7">
 
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-
-    </div>
-
+</div>
     <script>
 
         function openGift(){
@@ -936,7 +937,49 @@
             }
 
         });
+/* SLIDESHOW */
 
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+
+setInterval(()=>{
+
+    slides[currentSlide].classList.remove('active-slide');
+
+    currentSlide = (currentSlide + 1) % slides.length;
+
+    slides[currentSlide].classList.add('active-slide');
+
+},4000);
+
+
+/* REAL MUSIC PLAYER */
+
+const audio = document.getElementById('romantic-song');
+const playBtn = document.getElementById('playBtn');
+const volumeControl = document.getElementById('volumeControl');
+
+playBtn.addEventListener('click',()=>{
+
+    if(audio.paused){
+
+        audio.play();
+        playBtn.innerHTML='⏸';
+
+    }else{
+
+        audio.pause();
+        playBtn.innerHTML='▶';
+
+    }
+
+});
+
+volumeControl.addEventListener('input',()=>{
+
+    audio.volume = volumeControl.value;
+
+});
     </script>
 
 </body>
