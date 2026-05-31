@@ -6,6 +6,66 @@
     <title>Shape Of My Heart - Cinematic Ultra</title>
 
     <style>
+/* ===== AUTO PHOTO SLIDER ===== */
+
+.gallery-section{
+    max-width:1000px;
+    margin:60px auto;
+    overflow:hidden;
+}
+
+.gallery-title{
+    color:#ffd6ff;
+    font-size:2rem;
+    margin-bottom:25px;
+    text-shadow:0 0 15px rgba(192,132,255,.4);
+}
+
+.slider{
+    overflow:hidden;
+    width:100%;
+    position:relative;
+}
+
+.slide-track{
+    display:flex;
+    width:max-content;
+    animation:scrollSlider 35s linear infinite;
+}
+
+.slide-track:hover{
+    animation-play-state:paused;
+}
+
+.slide{
+    width:260px;
+    height:360px;
+    margin:0 10px;
+    flex-shrink:0;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+    transition:.4s;
+}
+
+.slide img:hover{
+    transform:scale(1.05);
+}
+
+@keyframes scrollSlider{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
+}
         *{
             margin:0;
             padding:0;
@@ -549,15 +609,14 @@
         <p id="quoteText">Kamu tahu? Aku senyum-senyum sendiri pas nulis ini...</p>
     </div>
 
-    <audio
-        id="romantic-song"
-        autoplay
-        loop
-        playsinline
-        preload="auto">
-        <source src="https://files.catbox.moe/grg9eo.mp3" type="audio/mpeg">
-    </audio>
-
+ <audio
+    id="shape-of-my-heart"
+    autoplay
+    loop
+    playsinline
+    preload="auto">
+    <source src="https://wilfridussebastian-stack.github.io/iloveusayang/music.mp3" type="audio/mpeg">
+</audio>
     <div class="gift-container" id="giftScreen">
         <div class="gift-box" onclick="openGift()">🎁</div>
         <p class="click-text">TAP TO OPEN</p>
@@ -571,8 +630,8 @@
         </header>
 
         <div class="section-card">
-            <h2>Tanggal Jadian Kita💜</h2>
-            <p style="margin-bottom: 15px; font-size: 0.95rem; color: #d1b3ff;">November 27, 2025</p>
+            <h2>Our Love Journey 💜</h2>
+            <p style="margin-bottom: 15px; font-size: 0.95rem; color: #d1b3ff;">Since November 26, 2025</p>
             <div class="counter-container">
                 <div class="counter-box">
                     <span class="counter-number" id="days">00</span>
@@ -609,8 +668,8 @@
         </div>
 
 
-        <h2 style="color: #ffd6ff; margin: 50px 0 10px 0; font-size: 2rem; text-shadow: 0 0 15px rgba(192,132,255,0.4);">Our Memories 📸</h2>
-        <p style="color: #ccc; font-style: italic; margin-bottom: 30px;">"Menggulir kembali memori indah kita..."</p>
+        <h2 style="color: #ffd6ff; margin: 50px 0 10px 0; font-size: 2rem; text-shadow: 0 0 15px rgba(192,132,255,0.4);">Foto Foto kita 📸</h2>
+        <p style="color: #ccc; font-style: italic; margin-bottom: 30px;">" memori indah kita berdua anjayszz ..."</p>
 
         <div class="timeline-section">
             
@@ -618,8 +677,8 @@
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <span class="timeline-date">CHAPTER I</span>
-                    <h3>Tugas praktek public speaking ✨</h3>
-                    <p>Momen ini saat kaita ada kegiatan tugas publick speaking dan aku melet WLEEE.</p>
+                    <h3>Tugas praktek public speaking</h3>
+                    <p>Momen ini saat kita ada kegiatan tugas public speaking dan aku melet WLEE</p>
                     <img class="timeline-img" src="https://iili.io/CJ13XiF.png" alt="Kenangan 1">
                 </div>
             </div>
@@ -629,7 +688,7 @@
                 <div class="timeline-content">
                     <span class="timeline-date">CHAPTER II</span>
                     <h3>Minta di tembak 💜</h3>
-                    <p>Ini momen kamu pengen aku ngomong kamu mau ga sama aku, dan itu di real life dan disitu langsung aku turutin.</p>
+                    <p>Ini momen dimana kamu pengen aku ngomong dan nyatain perasaan aku karna kamu pengen di tembak di real life</p>
                     <img class="timeline-img" src="https://iili.io/CJ1Kqvf.png" alt="Kenangan 2">
                 </div>
             </div>
@@ -638,8 +697,8 @@
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <span class="timeline-date">CHAPTER III</span>
-                    <h3>Canda & Bahagia 🥰</h3>
-                    <p>Setiap canda tawa kecil dan kenyamanan yang selalu berhasil bikin hari hari aku tenang.</p>
+                    <h3>Canda Dan tawa </h3>
+                    <p>Disini momen kita masih bisa ketawa bebas dan masih belum ada masalah yang parah dan aku seneng kita bisa melewatinya</p>
                     <img class="timeline-img" src="https://iili.io/CJ1f2tV.png" alt="Kenangan 3">
                 </div>
             </div>
@@ -648,15 +707,62 @@
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <span class="timeline-date">CHAPTER IV</span>
-                    <h3>Saat aku pertama ketemu kamu 🌹</h3>
-                    <p>Disini aku masih canggung banget dan aku liat kamu super aktif, dan aku makin nyaman sama kamu.</p>
+                    <h3>Saat aku pertama ketemu kamu  🌹</h3>
+                    <p>Disini aku masih cangung banget dan aku liat kamu super aktif, dan aku makin nyaman sama kamu.</p>
                     <img class="timeline-img" src="https://iili.io/CJ1qJgn.png" alt="Kenangan 4">
                 </div>
             </div>
 
         </div>
+<div class="gallery-section">
 
+    <h2 class="gallery-title">
+        Kegiatan kita di BLOk M 💜
+    </h2>
 
+    <div class="slider">
+
+        <div class="slide-track">
+
+            <div class="slide"><img src="Screenshot 2026-05-31 183651.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183635.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183458.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183626.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183618.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183545.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183618.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183553.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183508.png"></div>
+            <div class="slide"><img src="Screenshot 2026-05-31 183442.png"></div>
+        </div>
+
+    </div>
+
+</div>
+<div class="section-card">
+
+    <h2>Ini vidio kita lagi makan  </h2>
+
+    <p style="margin-bottom:15px;">
+        Enak banget tapi kalo dimakan banyak banyak enegg juga ya 
+    </p>
+
+   <video
+    controls
+    playsinline
+    preload="metadata"
+         style="
+            width:100%;
+            border-radius:20px;
+            box-shadow:0 0 25px rgba(192,132,255,.25);
+        ">
+
+        <source src="WhatsApp Video 2026-05-31 at 18.54.09.mp4" type="video/mp4">
+
+        Browser kamu tidak mendukung video.
+    </video>
+
+</div>
         <div class="section-card long-story" style="margin: 60px auto 35px auto;">
             <h2>A Little Story About You 💌</h2>
             <div class="story-text">
@@ -688,8 +794,9 @@
 
     </div>
 
-    <div class="music-player" id="playerWidget">🎵 Romantic Blues Vibes</div>
-
+   <div class="music-player" id="shape-of-my-hearts">
+    🎵 Shape Of My Heart
+</div>
     <div class="visualizer">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -789,14 +896,11 @@
 
         // === FITUR 3: DYNAMIC FLOATING POP-UP QUOTES ===
         const quotes = [
-            "Kamu tahu? Aku senyum-senyum sendiri pas nulis ini...",
-            "Makasih ya udah bertahan sama aku sampai hari ini. 💜",
-            "Honestly, talking to you is the best part of my day.",
-            "If I had to choose again, I’d still choose you. Everytime. ✨",
-            "Jangan lupa senyum ya hari ini. You mean the world to me.",
-            "Bisikan kecil: 'I promise to always care about you.'",
-            "Kamu selalu ada di hati aku. Selamanya. 🌹"
-        ];
+            "Kamu tahu? Aku senyum-senyum sendiri pas nulis ini WLEE...",
+            "Makasih ya udah bertahan sama aku bebepssss. 💜",
+            "Hidup ku bener bener berubah saat ketemu kamu",
+            "Makasih udah hadir di hidup aku'",
+            ];
         const quoteBubble = document.getElementById('quoteBubble');
         const quoteText = document.getElementById('quoteText');
         let currentQuoteIndex = 0;
@@ -820,8 +924,7 @@
 
         // === JALUR MEMBUKA KADO (GIFT OPEN) ===
         function openGift(){
-            const song = document.getElementById('romantic-song');
-            song.load();
+          const song = document.getElementById('shape-of-my-heart');            song.load();
             song.volume = 1;
             song.currentTime = 0;
 
